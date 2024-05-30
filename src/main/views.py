@@ -4,8 +4,9 @@ from django.http import HttpResponse
 # Create your views here.
 
 def index(request):
-    return render(request, 'index.html')
+    name_x = "ben"
+    return render(request, 'main\index.html')
 
 def rapport(request):
-    return render(request, 'rapport.html')
+    return render(request, "main\\rapport.html")
     
