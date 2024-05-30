@@ -1,12 +1,75 @@
 {% extends "base.html" %}
+{% load static %}
 
-{% block title %} Inscription {% endblock title %}
+{% block css_file %}
+    <link rel="stylesheet" href="{% static "accounts/styles.css" %}">
+{% endblock css_file %}
+
+{% block title %}
+    Inscription
+{% endblock title %}
 
 {% block content %}
+    <div id="container">
+        <div class="">
+            <h3>Mercure App</h3>
+            <h1>Inscription</h1>
+            <form method="POST" action="">
+                {% csrf_token %}
+                <!--FORMULAIRE-->
+                <div id="form">
+                    <!--LABEL-->
+                    {% if error_message %}
+                        <p> {{ error_message }} </p>
+                    {% endif %}
 
-<form action="">
-    {{ form.as_p }}
-    <input type="submit" value="S'inscrire">
-</form>
+                    <div id="label">
+                        <label for="prenom">Prenom </label>
+                        <label for="nom">Nom </label>
+                        <label for="email">Email </label>
+                        <label for="pseudo">Pseudo </label>
+                        <label for="mdp">Mot de passe </label>
+                        <label for="cmdp">Confiramtion mot de passe </label>
+                    </div>
 
+                    <!--INPUT-->
+                    <div id="input">
+                        {{ form.first_name }}
+                        {{ form.last_name }}
+                        {{ form.email }}
+                        {{ form.username }}
+                        {{ form.password }}          
+                        {{ form.password_repeat }}          
+                    </div>
+                </div>
+
+                <button type="submit"><img src="arrow.png" alt="submit"></button>
+            </form>
+        </div>
+
+        <!--CONTAINER BACKGROUND-->
+        <div class="background">
+            <div class="footer">
+                <p>Welcome to the future of work<p>
+                <p class="footer-item">
+                    <span class="already">Avez vous deja un compte?<span>
+                    <a class="signe_up" href="{% url "loginaccount" %}">Connexion</a>
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <!--FOOTER-->
+
+    <div id="footer">
+        <div class="item">
+            <div class="color-g">Project</div>
+            <div class="color-b">Mercure App</div>
+        </div>
+        <div class="item">
+            <div class="color-g">Section</div>
+            <div class="color-b">Sign-up process</div>
+        </div>
+        <div class="item last">Uzan</div>
+    </div>
 {% endblock content %}
