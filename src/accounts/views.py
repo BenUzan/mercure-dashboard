@@ -7,7 +7,7 @@ from django.contrib.auth import login, authenticate, logout
 # Create your views here.
 
 def signupaccount(request):
-    template = 'accounts\signupaccount.html'
+    template = 'accounts\signup.html'
     
     if request.method == 'POST':
         form = SignupForm(request.POST)
@@ -52,7 +52,7 @@ def signupaccount(request):
 
 
 def loginaccount(request):
-    template = 'accounts\loginaccount.html'
+    template = 'accounts\login.html'
     
     if request.method == 'POST':
         form = LoginForm(request.POST)
@@ -80,5 +80,5 @@ def loginaccount(request):
 
 
 def logoutaccount(request):
-    return render(request, 'accounts\logoutaccount.html')
+    return render(request, 'accounts\logout.html')
     
