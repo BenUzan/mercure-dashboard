@@ -32,7 +32,6 @@ def signupaccount(request):
                     'error_message': 'Les mots de passe ne correspondent pas.'
                 } )
             else:
-                un = request.POST.get('username_test')
                 user = User.objects.create_user(
                     username=form.cleaned_data['username'],
                     password=form.cleaned_data['password']

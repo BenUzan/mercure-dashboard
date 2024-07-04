@@ -1,66 +1,39 @@
-{% extends "base.html" %}
+{% extends 'base.html' %}
 {% load static %}
 
 {% block css_file %}
-    <link rel="stylesheet" href="{% static "accounts/styles.css" %}">
-{% endblock css_file %}
+  <link rel="stylesheet" href="{% static 'accounts/styles.css' %}" />
+{% endblock %}
 
 {% block title %}
-    Connexion
-{% endblock title %}
+  Connexion
+{% endblock %}
 
 {% block content %}
-    <div id="container">
-        <div class="">
-            <h3>Mercure App</h3>
-            <h1>Connexion</h1>
-            <form method="POST" action="">
-                {% csrf_token %}
-                <!--FORMULAIRE-->
-                <div id="form">
-                    {% if error_message %}
-                        <p> {{ error_message }} </p>
-                    {% endif %}
-                    <!--LABEL-->
-                    <div id="label">
-                        <label for="pseudo">Pseudo </label>
-                        <label for="mdp">Mot de passe </label>
-                    </div>
+  <br>
+      <form class="form-signin" method="POST">
+        {% csrf_token %}
 
-                    <!--INPUT-->
-                    <div id="input">
-                        {{ form.username }}
-                        {{ form.password }}          
-                    </div>
-                </div>
+        <img class="mb-4" src="../assets/brand/bootstrap-logo.svg" alt="" width="72" height="57" />
 
-                <button type="submit"><img src="arrow.png" alt="submit"></button>
-            </form>
+        <h1 class="h3 mb-3 fw-normal">Se connecter</h1>
+
+        <div class="form-floating">
+          {{ form.username }}
+          <label for="floatingInput">Nom d'utilisateur</label>
         </div>
 
-        <!--CONTAINER BACKGROUND-->
-        <div class="background">
-            <div class="footer">
-                <p>Welcome to the future of work<p>
-                <p class="footer-item">
-                    <span class="already">Vous n'avez pas de compte?<span>
-                    <a class="signe_up" href="{% url "signupaccount" %}">Inscription</a>
-                </p>
-            </div>
+        <div class="form-floating">
+          {{ form.password }}
+          <label for="floatingPassword">Mot de passe</label>
         </div>
-    </div>
 
-    <!--FOOTER-->
+        <div class="checkbox mb-3">
+          <label><input type="checkbox" value="remember-me" />Remember me</label>
+        </div>
 
-    <div id="footer">
-        <div class="item">
-            <div class="color-g">Project</div>
-            <div class="color-b">Mercure App</div>
-        </div>
-        <div class="item">
-            <div class="color-g">Section</div>
-            <div class="color-b">Sign-up process</div>
-        </div>
-        <div class="item last">Uzan</div>
-    </div>
-{% endblock content %}
+        <button class="w-100 btn btn-lg btn-primary" type="submit">Sign in</button>
+
+        <p class="mt-5 mb-3 text-muted">&copy; 2024 By Uzan</p>
+      </form>
+{% endblock %}

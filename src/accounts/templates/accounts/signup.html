@@ -1,75 +1,62 @@
-{% extends "base.html" %}
+{% extends 'base.html' %}
 {% load static %}
 
 {% block css_file %}
-    <link rel="stylesheet" href="{% static "accounts/styles.css" %}">
-{% endblock css_file %}
+  <link rel="stylesheet" href="{% static 'accounts/styles.css' %}" />
+{% endblock %}
 
 {% block title %}
-    Inscription
-{% endblock title %}
+  Inscription
+{% endblock %}
 
 {% block content %}
-    <div id="container">
-        <div class="">
-            <h3>Mercure App</h3>
-            <h1>Inscription</h1>
-            <form method="POST" action="">
-                {% csrf_token %}
-                <!--FORMULAIRE-->
-                <div id="form">
-                    <!--LABEL-->
-                    {% if error_message %}
-                        <p> {{ error_message }} </p>
-                    {% endif %}
+  <body class="text-center">
+    <main class="form-signin">
+      <form method="POST">
+        {% csrf_token %}
 
-                    <div id="label">
-                        <label for="prenom">Prenom </label>
-                        <label for="nom">Nom </label>
-                        <label for="email">Email </label>
-                        <label for="pseudo">Pseudo </label>
-                        <label for="mdp">Mot de passe </label>
-                        <label for="cmdp">Confiramtion mot de passe </label>
-                    </div>
+        <img class="mb-4" src="../assets/brand/bootstrap-logo.svg" alt="" width="72" height="57" />
 
-                    <!--INPUT-->
-                    <div id="input">
-                        {{ form.first_name }}
-                        {{ form.last_name }}
-                        {{ form.email }}
-                        {{ form.username }}
-                        {{ form.password }}          
-                        {{ form.password_repeat }}          
-                    </div>
-                </div>
-
-                <button type="submit"><img src="arrow.png" alt="submit"></button>
-            </form>
+        <h1 class="h3 mb-3 fw-normal">S'inscrire</h1>
+        
+        <div class="form-floating">
+          {{ form.first_name }}
+          <label for="floatingInput">Nom</label>
         </div>
 
-        <!--CONTAINER BACKGROUND-->
-        <div class="background">
-            <div class="footer">
-                <p>Welcome to the future of work<p>
-                <p class="footer-item">
-                    <span class="already">Avez vous deja un compte?<span>
-                    <a class="signe_up" href="{% url "loginaccount" %}">Connexion</a>
-                </p>
-            </div>
+        <div class="form-floating">
+          {{ form.last_name }}
+          <label for="floatingPassword">Post-nom</label>
         </div>
-    </div>
 
-    <!--FOOTER-->
+        <div class="form-floating">
+          {{ form.email }}
+          <label for="floatingInput">E-mail</label>
+        </div>
 
-    <div id="footer">
-        <div class="item">
-            <div class="color-g">Project</div>
-            <div class="color-b">Mercure App</div>
+        <div class="form-floating">
+          {{ form.username }}
+          <label for="floatingPassword">Nom d'utilisateur</label>
         </div>
-        <div class="item">
-            <div class="color-g">Section</div>
-            <div class="color-b">Sign-up process</div>
+
+        <div class="form-floating">
+          {{ form.password }}
+          <label for="floatingInput">Password</label>
         </div>
-        <div class="item last">Uzan</div>
-    </div>
-{% endblock content %}
+
+        <div class="form-floating">
+          {{ form.password_repeat }}
+          <label for="floatingInput">Password</label>
+        </div>
+
+        <div class="checkbox mb-3">
+          <label><input type="checkbox" value="remember-me" />Remember me</label>
+        </div>
+
+        <button class="w-100 btn btn-lg btn-primary" type="submit">Sign in</button>
+
+        <p class="mt-5 mb-3 text-muted">&copy; 2024 By Uzan</p>
+      </form>
+    </main>
+  </body>
+{% endblock %}
