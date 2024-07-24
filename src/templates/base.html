@@ -4,34 +4,69 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    {% block css_file %}
-    {% endblock css_file %} 
-    <link rel="stylesheet" href="{% static 'assets/css/bootstrap.min.css' %}">
-    <link rel="stylesheet" href="{% static 'assets/css/datatables.min.css' %}">
-    <script src="{% static 'assets/js/bootstrap.min.js' %}"></script>
+
+    {% block head_file %}
+    {% endblock head_file %}
+
+    <link rel="stylesheet" href="{% static 'assets/css/Bootstrap/5-3-3/bootstrap.min.css' %}">
+
+    <link rel="stylesheet" href="{% static 'assets/css/DataTables/datatables.min.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/css/DataTables/dataTables.bootstrap5.css' %}">
+
+    <script  src="{% static 'assets/js/Bootstrap/5-3-0/bootstrap.bundle.min.js' %}"></script>
+    <script  src="{% static 'assets/js/Bootstrap/5-3-3/bootstrap.min.js' %}"></script>
     
+    <script  src="{% static 'assets/js/jquery-3.7.1.min.js' %}"></script>
+
+
+    <script  src="{% static 'assets/js/DataTables/dataTables.js' %}"></script>
+    <script  src="{% static 'assets/js/DataTables/dataTables.bootstrap5.js' %}"></script>
+
     <title>
         {% block title %}
         {% endblock title %}
     </title>
 </head>
-<body class="text-center">
-    <nav class="navbar navbar-expand-lg bg-body-tertiary">
-        <div class="container-fluid">
-          <a class="navbar-brand" href="#">Mercure APP</a>
-          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+
+{% if user.is_authenticated %}
+<nav class="navbar bg-primary navbar-expand-lg bg-body-tertiary" data-bs-theme="dark">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="#">Mercure APP</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
-          </button>
-          <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
-            <div class="navbar-nav">
-              <a class="nav-link" aria-current="page" href="{% url "home" %}">Home</a>
-              <a class="nav-link" href="{% url "pl" %}">Liste des produits</a>
-              <a class="nav-link" href="#">Pricing</a>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNavDropdown">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <li class="nav-item">
+                    <a class="nav-link" aria-current="page" href="#">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" aria-currnt="page" href="{% url "product-list" %}">Liste des article</a>
+                </li>
+            </ul>
+            <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+                <div class="navbar-nav ms-auto">
+                    {% if user.is_authenticated %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'logout' %}"> Deconnexion ({{ user.username }}) </a>
+                    </li>
+                    {% else %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'login' %}">Se connecter</a>
+                    </li>
+                    {% endif %}
+                </div>
             </div>
-          </div>
         </div>
-      </nav>
+    </div>
+</nav>
+{% endif %}
+
     {% block content %}
     {% endblock content %}
 </body>
+
+{% block script_file %}
+{% endblock script_file %}
+
 </html>
