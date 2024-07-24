@@ -1,15 +1,16 @@
 {% extends 'base.html' %}
 {% load static %}
 
-{% block css_file %}
+{% block head_file %}
   <link rel="stylesheet" href="{% static 'accounts/styles.css' %}" />
-{% endblock %}
+{% endblock head_file %}
 
 {% block title %}
   Connexion
 {% endblock %}
 
 {% block content %}
+<body class="text-center">
   <br>
       <form class="form-signin" method="POST">
         {% csrf_token %}
@@ -36,4 +37,5 @@
 
         <p class="mt-5 mb-3 text-muted">&copy; 2024 By Uzan</p>
       </form>
+    </body>
 {% endblock %}
