@@ -1,0 +1,87 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %} Creer une nouvelle commande{% endblock title %}
+
+{% block content %}
+<br><br>
+<div class="mx-auto card" style="width:75%">
+    <div class="card-header">
+        FACTURATION
+    </div>
+    <div class="card-body">
+        <form class="mx-auto" name="order" action="" method="post" style="width:100%">
+            {% csrf_token %}
+        
+            <div class="row">
+                <div class="col form-floating">
+                    <input name="code" id="code" class="form-control" placeholder="Code" type="text"><br>
+                    <label for="code">Code</label>
+                </div>
+                <div class="col form-floating">
+                    <input placeholder="Designation" type="text" list="product_list" name="name" id="name" class="form-control"><br>
+                    <label for="name">Designation</label>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col form-floating">
+                    <input placeholder="Quantité" type="number" name="qty" id="qty" class="form-control"><br>
+                    <label for="qty">Quantité</label>
+                </div>
+                <div class="col form-floating">
+                    <input placeholder="Prix Unitaire" type="number" name="pu" id="pu" class="form-control"><br>
+                    <label for="pu" >Prix Unitaire</label>
+                </div>
+            </div>
+        
+            <div class="form-floating">
+                <input placeholder="Reduction" type="number"  name="discount" id="discount" class="form-control"><br>
+                <label for="discount">Reduction</label>
+            </div>
+        
+            <datalist id="product_list">
+                {% for product in product_list %}
+                    <option value="{{ product.name }}">{{ product.product_code }}</option>
+                {% endfor %}
+            </datalist>
+
+            <input type="button" value="Ajouter article" name="add" class="btn btn-outline-success" onclick="addNewRow();" ><br>
+            <br>
+            <table id="myTables" class=" mx-auto table table-hover " style="width:100%">
+                <thead class="table-dark">
+                    <tr>
+                        <td>Code</td>
+                        <td>Désignation</td>
+                        <td>Quantité</td>
+                        <td>Prix Unitaire</td>
+                        <td>Réduction</td>
+                        <td>Prix Total</td>
+                        <td>Action</td>
+                    </tr>
+                </thead>
+                <tbody>
+
+                </tbody>
+                <tfoot>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tfoot>
+            </table>
+                            
+            <button type="submit" class="btn btn-primary">Valider la vente</button>
+        </form>
+        <br>
+        <br>
+    </div>
+</div>
+{% endblock content %}
+
+{% block script_file %}
+    <script src="{% static "store/js/script.js" %}" ></script>
+{% endblock script_file %}
+

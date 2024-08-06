@@ -1,9 +1,10 @@
 from django import forms
 from django.forms import modelformset_factory
-from store.models import Product
+from store.models import Product, InvoiceItems
 
 
 class ProductForm(forms.ModelForm):
+
     class Meta:
         model = Product
         fields = [
@@ -30,3 +31,10 @@ class ProductForm(forms.ModelForm):
                 'class': 'form-control',
                 'id': 'floatingInput'})
         }
+
+
+class InvoiceItemsForm(forms.ModelForm):
+
+    class Meta:
+        model = InvoiceItems
+        exclude = ()

@@ -27,7 +27,7 @@ function addNewRow() {
     td3.innerHTML = '<input class="form-control" type="number" name="" id="" value="' + qty + '" disabled>'
     td4.innerHTML = '<input class="form-control" type="number" name="" id="" value="' + pu + '" disabled>'
     td5.innerHTML = '<input class="form-control" type="number" name="" id="" value="' + discount + '" disabled>'
-    td6.innerHTML = '<input class="form-control" type="number" name="" id="" value="' + pt + '" disabled>'
+    td6.innerHTML = '<input class="form-control" type="number" name="quantity" id="" value="' + pt + '" disabled>'
     td7.innerHTML = '<input class="btn btn-outline-danger" type="button" name="delete" value="Supprimer" onclick="delRow(this);">'
 
     // document.getElementById("myTable").appendChild(tr);
@@ -36,9 +36,8 @@ function addNewRow() {
     document.getElementById("qty").value = "";
     document.getElementById("pu").value = "";
     document.getElementById("discount").value = "";
-    
-    tbody.appendChild(tr);
 
+    tbody.appendChild(tr);
 
 }
 
