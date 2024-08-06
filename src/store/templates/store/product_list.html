@@ -1,0 +1,53 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %} List des produits {% endblock title %}
+
+{% block content %}
+<br><br>
+<div class="mx-auto card" style="width:75%">
+    <div class="card-header">
+        Liste des produits
+    </div>
+    <div class="card-body">
+            <table id="myTable" class=" mx-auto table table-hover " style="width:100%">
+                <thead class="table-dark" >
+                    <tr>
+                        <th>Réference</th>
+                        <th>Designation</th>
+                        <th>Prix Unitaire</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for product in products %}
+                    <tr>
+                        <td>{{ product.product_code }}</td>
+                        <td>{{ product.name }}</td>
+                        <td>{{ product.price_ventes }}</td>
+                        <td>
+                          <a href="up/{{product.id}}"><button class="btn btn-outline-success" id="up">Modifier</button></a>
+                          <a href="dp/{{product.id}}"><button class="btn btn-outline-danger" id="del">Supprimer</button></a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <th>Réference</th>
+                        <th>Designation</th>
+                        <th>Prix Unitaire</th>
+                        <th>Action</th>
+                    </tr>
+                </tfoot>
+            </table>
+            <a href={% url "cp" %}><button class="btn btn-primary">Ajouter produit</button></a>
+        <br>
+        <br>
+    </div>
+  </div>
+{% endblock %}
+
+{% block script_file %}
+    <script src="{% static "store/js/script.js" %}"></script>
+{% endblock script_file %}
