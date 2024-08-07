@@ -1,0 +1,64 @@
+<div data-formset-form>
+    <div class="card mb-4">
+        <div class="card-header pb-0">
+            <h6>
+                Commandes
+            </h6>
+        </div>
+        <div class="card-body px-0 pt-0 pb-2">
+            <div class="table-responsive p-0">
+                <table class="table align-items-center mb-0">
+                    <thead>
+                        <tr>
+                            <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Code</th>
+                            <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Quantite</th>
+                            <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">PU</th>
+                            <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Reduction</th>
+                            <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Action</th>
+                            <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>
+                                <div class="col form-floating">
+                                    {{ form.total_price }} {% comment %} !!! TO REMOVE !!! {% endcomment %}
+                                    <label for="PT">PT</label>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="form-floating">
+                                    {{ form.quantity }}
+                                </div>
+                            </td>
+                            <td>
+                                <div class="col form-floating">
+                                    {{ form.unity_price }}
+                                    <label for="Prix Unitaire">Prix Unitaire</label>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="col form-floating">
+                                    {{ form.discount }}
+                                    <label for="Reduction">Reduction</label>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="col form-floating">
+                                    {{ form.total_profit }}
+                                    <label for="Profit">Profit</label>
+                                </div>
+                            </td>
+                            <td>
+                                {% if form.DELETE %}
+                                    {{ form.DELETE }}
+                                    <button type="button" class="btn btn-outline-danger" data-formset-delete-button>Delete form</button>
+                                {% endif %}
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

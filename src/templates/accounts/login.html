@@ -1,0 +1,128 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block head_file %}
+{% endblock head_file %}
+
+{% block title %}
+  Connexion
+{% endblock %}
+
+{% block login_content %}
+{% comment %} <div class="overlay opacity-90 half">
+    <div class="bg order-1 order-md-2" style="background-image: url('images/bg_1.jpg');"></div>
+    <div class="contents order-2 order-md-1">
+
+      <div class="container overlay">
+        <div class="row align-items-center justify-content-center">
+          <div class="col-md-7">
+            <h3>Login to <strong>Colorlib</strong></h3>
+            <p class="mb-4">Lorem ipsum dolor sit amet elit. Sapiente sit aut eos consectetur adipisicing.</p>
+            <form action="#" method="post">
+                {% csrf_token %}
+              <div class="form-group first">
+                <label for="username">Username</label>
+                {{ form.username }}
+              </div>
+              <div class="form-group last mb-3">
+                <label for="password">Password</label>
+                {{ form.password }}
+              </div>
+              
+              <div class="d-flex mb-5 align-items-center">
+                <label class="control control--checkbox mb-0"><span class="caption">Remember me</span>
+                  <input type="checkbox" checked="checked"/>
+                  <div class="control__indicator"></div>
+                </label>
+                <span class="ml-auto"><a href="#" class="forgot-pass">Forgot Password</a></span> 
+              </div>
+
+              <input type="submit" value="Log In" class="btn btn-block btn-primary">
+            </form>
+          </div>
+        </div>
+      </div>
+    </div> {% endcomment %}
+
+
+    <main class="main-content  mt-0">
+        <section>
+          <div class="page-header min-vh-100">
+            <div class="container">
+              <div class="row">
+                <div class="col-xl-4 col-lg-5 col-md-7 d-flex flex-column mx-lg-0 mx-auto">
+                  <div class="card card-plain">
+                    <div class="card-header pb-0 text-start">
+                      <h4 class="font-weight-bolder">Sign In</h4>
+                      <p class="mb-0">Enter your email and password to sign in</p>
+                    </div>
+                    <div class="card-body">
+                      <form role="form" method="POST">
+                        {% csrf_token %}
+                        <div class="mb-3">
+                            {{ form.username }}
+                        </div>
+                        <div class="mb-3">
+                            {{ form.password }}
+                        </div>
+                        <div class="form-check form-switch">
+                          <input class="form-check-input" type="checkbox" id="rememberMe">
+                          <label class="form-check-label" for="rememberMe">Remember me</label>
+                        </div>
+                        <div class="text-center">
+                          <button type="submit" class="btn btn-lg btn-primary btn-lg w-100 mt-4 mb-0">Sign in</button>
+                        </div>
+                      </form>
+                    </div>
+                    <div class="card-footer text-center pt-0 px-lg-2 px-1">
+                      <p class="mb-4 text-sm mx-auto">
+                        Don't have an account?
+                        <a href="javascript:;" class="text-primary text-gradient font-weight-bold">Sign up</a>
+                      </p>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-6 d-lg-flex d-none h-100 my-auto pe-0 position-absolute top-0 end-0 text-center justify-content-center flex-column">
+                  <div class="position-relative bg-gradient-primary h-100 m-3 px-7 border-radius-lg d-flex flex-column justify-content-center overflow-hidden" style="background-image: url('https://raw.githubusercontent.com/creativetimofficial/public-assets/master/argon-dashboard-pro/assets/img/signin-ill.jpg');
+              background-size: cover;">
+                    <span class="mask bg-gradient-primary opacity-6"></span>
+                    <h4 class="mt-5 text-white font-weight-bolder position-relative">"Attention is the new currency"</h4>
+                    <p class="text-white position-relative">The more effortless the writing looks, the more effort the writer actually put into the process.</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+      </main>
+
+
+    {% comment %} <body class="text-center">
+  <br>
+      <form class="form-signin" method="POST">
+        {% csrf_token %}
+
+        <img class="mb-4" src="../assets/brand/bootstrap-logo.svg" alt="" width="72" height="57" />
+
+        <h1 class="h3 mb-3 fw-normal">Se connecter</h1>
+
+        <div class="form-floating">
+          {{ form.username }}
+          <label for="floatingInput">Nom d'utilisateur</label>
+        </div>
+
+        <div class="form-floating">
+          {{ form.password }}
+          <label for="floatingPassword">Mot de passe</label>
+        </div>
+
+        <div class="checkbox mb-3">
+          <label><input type="checkbox" value="remember-me" />Remember me</label>
+        </div>
+
+        <button class="w-100 btn btn-lg btn-primary" type="submit">Sign in</button>
+
+        <p class="mt-5 mb-3 text-muted">&copy; 2024 By Uzan</p>
+      </form>
+    </body> {% endcomment %}
+{% endblock %}
