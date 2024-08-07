@@ -38,10 +38,11 @@
     </title>
 </head>
 {% if user.is_authenticated %}
+
     <body class="g-sidenav-show bg-gray-100">
         
         <div class="min-height-400 position-absolute w-100" style="background-color: #241571"></div>
-        
+
         {% include "sidenav.html" %}
 
         <main class="main-content position-relative border-radius-lg ">
@@ -49,6 +50,7 @@
             {% include "navbar.html" %}
 
             <div class="container-fluid py-4">
+
                 {% block content %}
 
                 {% endblock content %}
@@ -58,17 +60,20 @@
             </div>
             
         </main>
+
     </body>
+
 {% else %}
+
     <body>
-        {% block login_content %}
 
-        {% endblock login_content %}
+        {% block account_content %}
+
+        {% endblock account_content %}
+
     </body>
+
 {% endif %}
-
-    
-
 
 <!-- Block of script files (javascript) -->
 {% block script_file %}
@@ -164,6 +169,7 @@
         },
         });
     </script>
+    
     <script>
         var win = navigator.platform.indexOf('Win') > -1;
         if (win && document.querySelector('#sidenav-scrollbar')) {
