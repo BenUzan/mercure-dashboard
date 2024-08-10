@@ -1,6 +1,6 @@
 from django import forms
-from django.forms import formset_factory, modelformset_factory
-from apps.sales.models import Product, InvoiceItems
+from django.forms import SelectDateWidget, formset_factory, modelformset_factory, inlineformset_factory
+from apps.sales.models import Product, Invoice, InvoiceItems
 from djangoformsetjs.utils import formset_media_js
 
 
@@ -32,6 +32,33 @@ class ProductForm(forms.ModelForm):
                 'placeholder': 'Marge',
                 'class': 'form-control',
                 'id': 'floatingInput'})
+        }
+
+
+class InvoiceForm(forms.ModelForm):
+
+    class Meta:
+        model = Invoice
+        fields = [
+            'invoice_code',
+            'date',
+            'total_sales_amount',
+            'total_profit_amount'
+        ]
+        widgets = {
+            'invoice_code': forms.NumberInput(attrs={
+                'placeholder': 'Code',
+                'class': 'form-control'}),
+            'date': forms.DateInput(attrs={
+                'placeholder': 'Date',
+                'class': 'form-control',
+                'type': 'date'}),
+            'total_sales_amount': forms.NumberInput(attrs={
+                'placeholder': 'Total Montant Ventes',
+                'class': 'form-control'}),
+            'total_ptofit_amount': forms.NumberInput(attrs={
+                'placeholder': 'Total Profuit Ventes',
+                'class': 'form-control'})
         }
 
 
@@ -72,5 +99,5 @@ class InvoiceItemsForm(forms.ModelForm):
         )
 
 
-InvoiceItemsFormSet = formset_factory(
-    InvoiceItemsForm, can_delete=True, can_order=False)
+InvoiceItemsFormSet = inlineformset_factory(
+    Invoice, InvoiceItems, form=InvoiceItemsForm, can_delete=True, can_order=False, extra=1)

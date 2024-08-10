@@ -44,7 +44,7 @@ def signupaccount(request):
 
                 user.save()
                 login(request, user)
-                return redirect('home')
+                return redirect('dashboard')
     else:
         form = SignupForm()
 

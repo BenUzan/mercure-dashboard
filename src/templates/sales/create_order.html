@@ -5,57 +5,40 @@
 
 {% block content %}
 <br><br>
-<div class="mx-auto card">
-    <div class="card-header">
-        FACTURATION
+<div class="card">
+    <div class="card-header pb-0">
+        <h4 class="card-title mb-3"> 
+            Facturation {{ invoice_code }}
+        </h4>
+        <hr>
     </div>
     <div class="card-body">
-        {% comment %} <form class="mx-auto" name="order" action="" method="post" style="width:100%">
-            {% csrf_token %}
-        
-            <div class="row">
-                <div class="col form-floating">
-                    <input name="code" id="code" class="form-control" placeholder="Code" type="text"><br>
-                    <label for="code">Code</label>
-                </div>
-                <div class="col form-floating">
-                    <input placeholder="Designation" type="text" list="product_list" name="name" id="name" class="form-control"><br>
-                    <label for="name">Designation</label>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col form-floating">
-                    <input placeholder="Quantité" type="number" name="qty" id="qty" class="form-control"><br>
-                    <label for="qty">Quantité</label>
-                </div>
-                <div class="col form-floating">
-                    <input placeholder="Prix Unitaire" type="number" name="pu" id="pu" class="form-control"><br>
-                    <label for="pu" >Prix Unitaire</label>
-                </div>
-            </div>
-        
-            <div class="form-floating">
-                <input placeholder="Reduction" type="number"  name="discount" id="discount" class="form-control"><br>
-                <label for="discount">Reduction</label>
-            </div>
-        
-            <datalist id="product_list">
-                {% for product in product_list %}
-                    <option value="{{ product.product_code }}"> {{ product.name }}</option>
-                {% endfor %}
-            </datalist>
-
-            <input type="button" value="Ajouter article" name="add" class="btn btn-outline-success" onclick="addNewRow();" ><br>
-            <br>
-            <button type="submit" class="btn btn-primary">Valider la vente</button>
-        </form> {% endcomment %}
-        <br>
-        <br>
         <div class="row">
             <div class="col 12">
                 <form action="" method="post">
+                    
                     {% csrf_token %}
-        
+
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-lg">
+                                <label for="qty">Quantité</label>
+                                <input placeholder="Quantité" type="number" name="qty" id="qty" class="form-control">
+                            </div>
+                            <div class="col-lg">
+                                <label for="pu" >Prix Unitaire</label>
+                                <input placeholder="Prix Unitaire" type="number" name="pu" id="pu" class="form-control">
+                            </div>
+                            <div class="col-lg">
+                                <label for="Date">Date</label>
+                                {{ invoice_form.date }}
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <br><br>
+
                     {% load formset_tags %}
                 
                     <div id="formset" data-formset-prefix="{{ formset.prefix }}">

@@ -2,9 +2,9 @@ import re
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import redirect, render
 from django.http import HttpResponse, HttpResponseRedirect
-from apps.sales.models import Product
-from apps.sales.forms import ProductForm, InvoiceItemsFormSet
-
+from apps.sales.models import Invoice, Product
+from apps.sales.forms import ProductForm, InvoiceForm, InvoiceItemsFormSet
+from apps.sales.utils.code_generator import invoice_code_generator, product_code_generator
 # Create your views here.
 
 
@@ -15,42 +15,6 @@ def index(request):
 
 def report(request):
     return render(request, "sales\\report.html")
-
-# * Methode for geneate product code with the last
-# * record in product table
-
-
-def product_code_generator(product_code):
-    product_code_prefix = 'ART-'
-    product_code_suffix = ["-", "-0", "-00", "-000", "-0000"]
-
-    # Extraction of the 6 latest charcater form product_code
-    product_code = product_code[-6:]
-
-    new_product_code = 0
-
-    # loop for extract number from product_code
-    for i in range(len(product_code_suffix)):
-        x = re.split(product_code_suffix[i], product_code)
-        print(x)
-
-        try:
-            if int(x[1]):
-                new_product_code = int(x[1]) + 1
-        except:
-            pass
-
-    if new_product_code == 0:  # create a new and the first product_code for the Table
-        new_product_code = 'ART-00001'
-    else:  # create a new product_code for the Table
-        new_product_code = str(new_product_code)
-        for x in range(5):
-            if len(new_product_code) < 5:
-                new_product_code = f'0{new_product_code}'
-            else:
-                new_product_code = f'{product_code_prefix}{new_product_code}'
-
-    return new_product_code
 
 
 def create_product(request):
@@ -140,21 +104,43 @@ def product_list(request):
     return render(request, template, {"products": products})
 
 
-item = []
-
-
 def create_order(request):
+
     template = "sales\create_order.html"
+
     products = Product.objects.all
+
     formset = InvoiceItemsFormSet(request.POST or None)
+    invoice_form = InvoiceForm(request.POST or None)
+
+    if Invoice.objects.count() < 1:
+        invoice_code = invoice_code_generator('')
+    else:
+        invoice = Invoice.objects.latest('invoice_code')
+        invoice_code = invoice_code_generator(invoice.invoice_code)
 
     if request.method == 'POST':
         print('test')
-        if formset.is_valid():
+
+        # * FIRST SAVE INVOICE
+        if invoice_form.is_valid() and formset.is_valid():
+            pass
+
+        # * SECOND SAVE INVOICE ITEMS
+        if formset.is_valid() and invoice_form.is_valid():
+
+            final_formset = InvoiceItemsFormSet
             for form in formset:
                 print(form.cleaned_data)
 
-    return render(request, template, {"item_list": item, "product_list": products, 'formset': formset})
+            final_formset.save()
+
+    context = {"invoice_code": invoice_code,
+               "product_list": products,
+               "invoice_form": invoice_form,
+               'formset': formset}
+
+    return render(request, template, context)
 
 
 def save_invoice(request):
