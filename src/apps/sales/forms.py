@@ -41,24 +41,24 @@ class InvoiceForm(forms.ModelForm):
         model = Invoice
         fields = [
             'invoice_code',
-            'date',
-            'total_sales_amount',
-            'total_profit_amount'
+            'date'
+            # 'total_sales_amount',
+            # 'total_profit_amount'
         ]
         widgets = {
-            'invoice_code': forms.NumberInput(attrs={
+            'invoice_code': forms.TextInput(attrs={
                 'placeholder': 'Code',
                 'class': 'form-control'}),
             'date': forms.DateInput(attrs={
                 'placeholder': 'Date',
                 'class': 'form-control',
-                'type': 'date'}),
-            'total_sales_amount': forms.NumberInput(attrs={
-                'placeholder': 'Total Montant Ventes',
-                'class': 'form-control'}),
-            'total_ptofit_amount': forms.NumberInput(attrs={
-                'placeholder': 'Total Profuit Ventes',
-                'class': 'form-control'})
+                'type': 'date'})
+            # 'total_sales_amount': forms.NumberInput(attrs={
+            #     'placeholder': 'Total Montant Ventes',
+            #     'class': 'form-control'}),
+            # 'total_profit_amount': forms.NumberInput(attrs={
+            #     'placeholder': 'Total Profit Ventes',
+            #     'class': 'form-control'})
         }
 
 
@@ -67,29 +67,34 @@ class InvoiceItemsForm(forms.ModelForm):
     class Meta:
         model = InvoiceItems
         fields = [
+            'product',
             'quantity',
             'unity_price',
-            'total_price',
             'discount',
-            'total_profit'
+            'total_price'
+            # 'total_profit'
         ]
         widgets = {
-            'quantity': forms.NumberInput(attrs={
-                'placeholder': 'Quantity',
-                'class': 'form-control'}),
-            'unity_price': forms.TextInput(attrs={
-                'placeholder': 'Prix Unitaire',
+            'product': forms.TextInput(attrs={
+                'placeholder': 'Code du produit',
                 'class': 'form-control',
                 'list': 'product_list'}),
-            'total_price': forms.NumberInput(attrs={
-                'placeholder': 'PR',
-                'class': 'form-control'}),
+            'quantity': forms.NumberInput(attrs={
+                'placeholder': 'Quantity',
+                'class': 'form-control input quantity'}),
+            'unity_price': forms.NumberInput(attrs={
+                'placeholder': 'Prix Unitaire',
+                'class': 'form-control input prix_unitaire'}),
             'discount': forms.NumberInput(attrs={
-                'placeholder': 'Marge',
+                'placeholder': 'Reduction',
                 'class': 'form-control'}),
-            'total_profit': forms.TextInput(attrs={
-                'placeholder': 'Marge',
-                'class': 'form-control'})
+            'total_price': forms.NumberInput(attrs={
+                'placeholder': 'Prix Total',
+                'class': 'form-control input pt'})
+            # 'total_profit': forms.TextInput(attrs={
+            #     'placeholder': 'Prix total',
+            #     'class': 'form-control',
+            #     'disabled': 'disabled'})
         }
 
     class Media(object):

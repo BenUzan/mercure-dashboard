@@ -110,30 +110,51 @@ def create_order(request):
 
     products = Product.objects.all
 
-    formset = InvoiceItemsFormSet(request.POST or None)
-    invoice_form = InvoiceForm(request.POST or None)
-
     if Invoice.objects.count() < 1:
         invoice_code = invoice_code_generator('')
     else:
         invoice = Invoice.objects.latest('invoice_code')
         invoice_code = invoice_code_generator(invoice.invoice_code)
 
+    formset = InvoiceItemsFormSet(request.POST or None)
+    invoice_form = InvoiceForm(request.POST or None, initial={
+        'invoice_code': invoice_code})
+
     if request.method == 'POST':
-        print('test')
 
         # * FIRST SAVE INVOICE
-        if invoice_form.is_valid() and formset.is_valid():
-            pass
+        # if invoice_form.is_valid() and formset.is_valid():
+        #     print('test')
+
+        #     date = invoice_form.cleaned_data['date']
+
+        #     for form in formset:
+        #         tsm = form.cleaned_data['total_price']
+        #         tpm = form.cleaned_data['total_sales_amount']
+
+        #     # fact = Invoice(
+        #     #     invoice_code=invoice_code,
+        #     #     date=date,
+        #     #     total_sales_amount= tsm,
+        #     #     total_profit_amount= tpm
+        #     # )
+
+        #     # fact.save()
+        #     # redirect('dashboard')
+        #     print(date)
+        #     print(tsm)
 
         # * SECOND SAVE INVOICE ITEMS
-        if formset.is_valid() and invoice_form.is_valid():
-
-            final_formset = InvoiceItemsFormSet
+        if formset.is_valid():
+            # final_formset = InvoiceItemsFormSet
             for form in formset:
                 print(form.cleaned_data)
 
-            final_formset.save()
+        #     final_formset.save()
+    else:
+        formset = InvoiceItemsFormSet(request.POST or None)
+        invoice_form = InvoiceForm(request.POST or None, initial={
+                                   'invoice_code': invoice_code})
 
     context = {"invoice_code": invoice_code,
                "product_list": products,

@@ -36,15 +36,15 @@ class Invoice(models.Model):
     total_profit_amount = models.DecimalField(max_digits=18, decimal_places=2)
 
     def __str__(self):
-        return self.invoice_id
+        return self.invoice_code
 
 
 class InvoiceItems(models.Model):
     invoice = models.ForeignKey(
-        "sales.Invoice", on_delete=models.CASCADE, default=True)
+        "sales.Invoice", on_delete=models.CASCADE)
     product = models.ForeignKey(
-        "sales.Product", on_delete=models.CASCADE, default=True)
-    quantity = models.IntegerField()
+        "sales.Product", on_delete=models.CASCADE)
+    quantity = models.DecimalField(max_digits=18, decimal_places=2)
     unity_price = models.DecimalField(max_digits=18, decimal_places=2)
     total_price = models.DecimalField(max_digits=18, decimal_places=2)
     discount = models.DecimalField(max_digits=18, decimal_places=2)
