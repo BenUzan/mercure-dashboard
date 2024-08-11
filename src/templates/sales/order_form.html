@@ -10,11 +10,11 @@
                 <table class="table align-items-center mb-0">
                     <thead>
                         <tr>
-                            <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Code</th>
+                            <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Code du produit</th>
                             <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Quantite</th>
-                            <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">PU</th>
+                            <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Prix Unitaire</th>
                             <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Reduction</th>
-                            <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Action</th>
+                            <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Prix Totale</th>
                             <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Action</th>
                         </tr>
                     </thead>
@@ -22,7 +22,7 @@
                         <tr>
                             <td>
                                 <div class="col">
-                                    {{ form.total_price }} {% comment %} !!! TO REMOVE !!! {% endcomment %}
+                                     {{ form.product }}
                                 </div>
                             </td>
                             <td>
@@ -42,7 +42,7 @@
                             </td>
                             <td>
                                 <div class="col">
-                                    {{ form.total_profit }}
+                                    {{ form.total_price }}
                                 </div>
                             </td>
                             <td>

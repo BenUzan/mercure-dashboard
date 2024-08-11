@@ -22,12 +22,8 @@
                     <div class="container">
                         <div class="row">
                             <div class="col-lg">
-                                <label for="qty">Quantité</label>
-                                <input placeholder="Quantité" type="number" name="qty" id="qty" class="form-control">
-                            </div>
-                            <div class="col-lg">
-                                <label for="pu" >Prix Unitaire</label>
-                                <input placeholder="Prix Unitaire" type="number" name="pu" id="pu" class="form-control">
+                                <label for="Code">Facture</label>
+                                {{ invoice_form.invoice_code }}
                             </div>
                             <div class="col-lg">
                                 <label for="Date">Date</label>
@@ -61,7 +57,7 @@
                         </script>
                 
                         <!-- This button will add a new form when clicked -->
-                        <input type="button" class="btn btn-outline-success" value="Add another" data-formset-add>
+                        <input type="button" id="ccc" class="btn btn-outline-success" value="Add another" data-formset-add>
                 
                         <script>
                             jQuery(function() {
@@ -79,7 +75,11 @@
                     </div>
                 
                     <button type="submit" class="btn btn-primary">Submit</button>
-                
+                    <div class="columns">
+                        <div class="column">
+                            <h3 class="title is-4">Total($): <span id="total"></span></h3>
+                        </div>
+                    </div>
                     </form>
             </div>
         </div>
@@ -90,9 +90,73 @@
         </datalist>
     </div>
 </div>
+
+
 {% endblock content %}
 
 {% block script_file %}
+
+<script type="text/javascript">
+    {% comment %} !!! code a revoir ABSOLUMENT !!! {% endcomment %}
+    $('table input').on("input", function (index) {
+        var total = []
+        var $tr = $(this).closest('tr');
+        var textValue1 = $("input.prix_unitaire", $tr).val();
+        var textValue2 = $('input.quantity', $tr).val();
+        amt = textValue1 * textValue2;
+        // console.log(amt);
+        $('input.pt', $tr).val(amt);
+        calc_total();
+    });
+    
+    $(document).ready(function () {
+        $("#ccc").click(function (){
+            $('table input').on("input", function (index) {
+                var total = []
+                var $tr = $(this).closest('tr');
+                var textValue1 = $("input.prix_unitaire", $tr).val();
+                var textValue2 = $('input.quantity', $tr).val();
+                amt = textValue1 * textValue2;
+                // console.log(amt);
+                $('input.pt', $tr).val(amt);
+                calc_total();
+            });
+        });
+    });
+
+    
+
+    $("#delete").click( function(){
+        var $tr = $(this).closest('tr');
+        amt = 0
+        $("input.prix_unitaire", $tr).val(amt);
+        $('input.quantity', $tr).val(amt);
+        $('input.pt', $tr).val(amt)
+        calc_total()
+    });
+
+    function substract(){
+        var $tr = $(this).closest('tr');
+        amt = 0
+        $('input.pt', $tr).val(amt)
+        calc_total()
+    }
+
+    function calc_total() {
+        var sum = 0;
+        
+        $("input.pt").each(function () {
+            sum += parseFloat($(this).val());
+        });
+        //console.log(sum);
+        $('#total').text(sum);
+    }
+
+
+
+
+</script>
+
     <script src="{% static "sales/js/script.js" %}" ></script>
 {% endblock script_file %}
 
