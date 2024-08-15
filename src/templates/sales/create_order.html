@@ -15,7 +15,7 @@
     <div class="card-body">
         <div class="row">
             <div class="col 12">
-                <form action="" method="post">
+                <form id="form" action="" method="post">
                     
                     {% csrf_token %}
 
@@ -103,12 +103,17 @@
         var $tr = $(this).closest('tr');
         var textValue1 = $("input.prix_unitaire", $tr).val();
         var textValue2 = $('input.quantity', $tr).val();
-        amt = textValue1 * textValue2;
+        var textValue3 = $('input.discount', $tr).val();
+        amt = (textValue1 * textValue2) - textValue3;
         // console.log(amt);
-        $('input.pt', $tr).val(amt);
+        $('input.total_price', $tr).val(amt);
         calc_total();
     });
     
+    $('#form').submit(function(){
+        $("#form :disabled").removeAttr('disabled');
+    });
+
     $(document).ready(function () {
         $("#ccc").click(function (){
             $('table input').on("input", function (index) {
@@ -116,9 +121,10 @@
                 var $tr = $(this).closest('tr');
                 var textValue1 = $("input.prix_unitaire", $tr).val();
                 var textValue2 = $('input.quantity', $tr).val();
-                amt = textValue1 * textValue2;
+                var textValue3 = $('input.discount', $tr).val();
+                amt = (textValue1 * textValue2) - textValue3;
                 // console.log(amt);
-                $('input.pt', $tr).val(amt);
+                $('input.total_price', $tr).val(amt);
                 calc_total();
             });
         });
@@ -131,21 +137,22 @@
         amt = 0
         $("input.prix_unitaire", $tr).val(amt);
         $('input.quantity', $tr).val(amt);
-        $('input.pt', $tr).val(amt)
+        $('input.total_price', $tr).val(amt)
+        $('input.discount', $tr).val(amt)
         calc_total()
     });
 
     function substract(){
         var $tr = $(this).closest('tr');
         amt = 0
-        $('input.pt', $tr).val(amt)
+        $('input.total_price', $tr).val(amt)
         calc_total()
     }
 
     function calc_total() {
         var sum = 0;
         
-        $("input.pt").each(function () {
+        $("input.total_price").each(function () {
             sum += parseFloat($(this).val());
         });
         //console.log(sum);

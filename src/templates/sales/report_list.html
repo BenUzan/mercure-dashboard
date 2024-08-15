@@ -1,0 +1,66 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}
+Liste des rapports
+{% endblock title %}
+
+{% block content %}
+<div class="card">
+    <div class="table-responsive">
+      <table class="table align-items-center mb-0">
+        <thead>
+          <tr>
+            <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Code</th>
+            <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">date</th>
+            <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Etat</th>
+            <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">ventes total</th>
+            <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">profit total</th>
+            <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Action</th>
+          </tr>
+        </thead>
+        <tbody>
+            {% for invoice in invoices %}
+            <tr>
+                <td>
+                  <div class="d-flex px-2 py-1">
+                    <div>
+                        <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
+                            <i class="ni ni-collection text-success text-sm opacity-10"></i>
+                          </div>
+                    </div>
+                    <div class="d-flex flex-column justify-content-center">
+                      <h6 class="mb-0 text-xs">{{ invoice.invoice_code }}</h6>
+                      <p class="text-xs text-secondary mb-0">{{ user.email }}</p>
+                    </div>
+                  </div>
+                </td>
+                <td>
+                  <p class="text-xs text-secondary text-xs font-weight-bold">{{ invoice.date }}</p>
+                </td>
+                <td class="align-middle text-center text-sm">
+                  <span class="badge badge-sm bg-gradient-success">effectuer</span>
+                </td>
+                <td class="">
+                  <p class="text-xs text-secondary text-xs font-weight-bold">{{ invoice.total_sales_amount }} CDF</p>
+                </td>
+                <td class="">
+                    <p class="text-xs text-secondary text-xs font-weight-bold">{{ invoice.total_sales_amount }} CDF</p>
+                  </td>
+                <td class="align-middle">
+                  <a href="report-details/{{ invoice.id }}" class="text-secondary font-weight-bold text-xs" data-toggle="tooltip" data-original-title="Edit user">
+                    Edit
+                  </a>
+                  <br>
+                  <a href="report-download/{{ invoice.id }}" class="text-secondary font-weight-bold text-xs" data-toggle="tooltip" data-original-title="Edit user">
+                    Telecharger
+                  </a>
+                </td>
+              </tr>
+            {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+{% endblock content %}
+
