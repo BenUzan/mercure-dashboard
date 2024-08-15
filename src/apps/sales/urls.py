@@ -2,9 +2,13 @@ from django.urls import path
 
 from apps.sales import views
 
-
+# ! TEMPORAIRE
 urlpatterns = [
     path('daily-report', views.report, name='daily_report'),
+    path('report-list', views.report_list, name='report-list'),
+    path('report-details/<int:id>',
+         views.report_details, name='report-details'),
+    path('report-download/<int:id>', views.generate_report, name='report-download'),
     path('create-product', views.create_product, name='create_product'),
     path('create-order', views.create_order, name='create_order'),
     path('product-list', views.product_list, name='product_list'),

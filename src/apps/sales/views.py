@@ -1,16 +1,69 @@
 import re
 from django.contrib.auth.decorators import login_required
-from django.shortcuts import redirect, render
+from django.shortcuts import get_object_or_404, redirect, render
 from django.http import HttpResponse, HttpResponseRedirect
-from apps.sales.models import Invoice, Product
+from django.contrib.auth.models import User
+from django.urls import reverse
+from apps.sales.models import InvoiceItems, Invoice, Product
 from apps.sales.forms import ProductForm, InvoiceForm, InvoiceItemsFormSet
 from apps.sales.utils.code_generator import invoice_code_generator, product_code_generator
+
+import pdfkit
 # Create your views here.
 
 
 @login_required(login_url="/login")
 def index(request):
     return render(request, 'sales\index.html')
+
+
+def report_list(request):
+    template = "sales\\report_list.html"
+
+    invoices = Invoice.objects.all()
+
+    context = {
+        'invoices': invoices}
+    return render(request, template, context)
+
+
+def report_details(request, id=None):
+    invoice = get_object_or_404(Invoice, id=id)
+    invoiceitem = invoice.invoiceitems_set.all()
+
+    context = {
+        "company": {
+            "name": "Uzan Muyumba",
+            "address": "1B Lubumbashi, RDC",
+            "phone": "(243) XXX XXXX",
+            "email": "contact@uzan.com",
+        },
+        "invoice_id": invoice.id,
+        "invoice_total": invoice.total_sales_amount,
+        "customer": 'Maitre Olivier',
+        "customer_email": '@gmail.com',
+        "date": invoice.date,
+        "due_date": invoice.date,
+        "billing_address": 'Lubumbashi, Haut-Katanga',
+        "message": 'Bon',
+        "invoiceitem": invoiceitem,
+
+    }
+    return render(request, 'sales/pdf_template.html', context)
+
+
+def generate_report(request, id=None):
+    # Use False instead of output path to save pdf to a variable
+    # by using configuration you can add path value.
+    wkhtml_path = pdfkit.configuration(
+        wkhtmltopdf="C:/Program Files/wkhtmltopdf/bin/wkhtmltopdf.exe")
+
+    pdf = pdfkit.from_url(request.build_absolute_uri(
+        reverse('report-details', args=[id])), False, configuration=wkhtml_path)
+    response = HttpResponse(pdf, content_type='application/pdf')
+    response['Content-Disposition'] = 'attachment; filename="invoice.pdf"'
+
+    return response
 
 
 def report(request):
@@ -116,40 +169,76 @@ def create_order(request):
         invoice = Invoice.objects.latest('invoice_code')
         invoice_code = invoice_code_generator(invoice.invoice_code)
 
-    formset = InvoiceItemsFormSet(request.POST or None)
-    invoice_form = InvoiceForm(request.POST or None, initial={
-        'invoice_code': invoice_code})
-
     if request.method == 'POST':
 
+        invoice_form = InvoiceForm(request.POST or None, initial={
+            'invoice_code': invoice_code})
+        formset = InvoiceItemsFormSet(request.POST or None)
+
         # * FIRST SAVE INVOICE
-        # if invoice_form.is_valid() and formset.is_valid():
-        #     print('test')
+        if invoice_form.is_valid():
+            print('test')
+            fac = invoice_form.cleaned_data.get('invoice_code')
+            date = invoice_form.cleaned_data.get('date')
 
-        #     date = invoice_form.cleaned_data['date']
+            tsm = 0
+            tpf = 0
 
-        #     for form in formset:
-        #         tsm = form.cleaned_data['total_price']
-        #         tpm = form.cleaned_data['total_sales_amount']
-
-        #     # fact = Invoice(
-        #     #     invoice_code=invoice_code,
-        #     #     date=date,
-        #     #     total_sales_amount= tsm,
-        #     #     total_profit_amount= tpm
-        #     # )
-
-        #     # fact.save()
-        #     # redirect('dashboard')
-        #     print(date)
-        #     print(tsm)
+            invoice = Invoice.objects.create(
+                invoice_code=fac,
+                date=date,
+            )
 
         # * SECOND SAVE INVOICE ITEMS
         if formset.is_valid():
+            print('test')
             # final_formset = InvoiceItemsFormSet
-            for form in formset:
-                print(form.cleaned_data)
 
+            total_sales_amount = 0
+            total_profit_amount = 0
+
+            for form in formset:
+
+                delete = form.cleaned_data.get('DELETE')
+
+                if delete:
+                    continue
+
+                prod = form.cleaned_data.get('product_code')
+
+                try:
+                    product_instance = Product.objects.get(product_code=prod)
+                except:
+                    #! doit envoyer un message derruer
+                    product_instance = None
+
+                quantity = form.cleaned_data.get('quantity')
+                unity_price = form.cleaned_data.get('unity_price')
+                discount = form.cleaned_data.get('discount')
+                total_price = form.cleaned_data.get('total_price')
+
+                total_profit = product_instance.benefice
+
+                if not delete:
+                    total_profit = total_profit * quantity
+                    total_sales_amount += total_price
+                    total_profit_amount += total_profit
+
+                    InvoiceItems(
+                        invoice=invoice,
+                        product=product_instance,
+                        quantity=quantity,
+                        unity_price=unity_price,
+                        total_price=total_price,
+                        discount=discount,
+                        total_profit=total_profit
+                    ).save()
+
+            invoice.total_sales_amount = total_sales_amount
+            invoice.total_profit_amount = total_profit_amount
+            invoice.save()
+
+            return redirect('report_list')
         #     final_formset.save()
     else:
         formset = InvoiceItemsFormSet(request.POST or None)
