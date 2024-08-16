@@ -8,6 +8,7 @@ from apps.sales.models import InvoiceItems, Invoice, Product
 from apps.sales.forms import ProductForm, InvoiceForm, InvoiceItemsFormSet
 from apps.sales.utils.code_generator import invoice_code_generator, product_code_generator
 
+from pypdf import PdfReader, PdfWriter
 import pdfkit
 # Create your views here.
 
@@ -238,7 +239,7 @@ def create_order(request):
             invoice.total_profit_amount = total_profit_amount
             invoice.save()
 
-            return redirect('report_list')
+            return redirect('report-list')
         #     final_formset.save()
     else:
         formset = InvoiceItemsFormSet(request.POST or None)
