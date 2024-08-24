@@ -20,12 +20,12 @@ def product_code_generator(product_code):
                 new_product_code = int(x[1]) + 1
         except:
             pass
-
+    print(new_product_code)
     if new_product_code == 0:  # create a new and the first product_code for the Table
         new_product_code = 'ART-00001'
     else:  # create a new product_code for the Table
         new_product_code = str(new_product_code)
-        for x in range(4):
+        for x in range(6):
             if len(new_product_code) < 5:
                 new_product_code = f'0{new_product_code}'
 
@@ -58,10 +58,14 @@ def invoice_code_generator(invoice_code):
         new_invoice_code = 'FAC-00001'
     else:  # create a new product_code for the Table
         new_invoice_code = str(new_invoice_code)
-        for x in range(4):
+        for x in range(5):
             if len(new_invoice_code) < 5:
                 new_invoice_code = f'0{new_invoice_code}'
 
         new_invoice_code = f'{invoice_code_prefix}{new_invoice_code}'
 
     return new_invoice_code
+
+
+v = product_code_generator("ART-17777")
+print(v)

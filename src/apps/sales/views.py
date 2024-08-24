@@ -8,14 +8,14 @@ from apps.sales.models import InvoiceItems, Invoice, Product
 from apps.sales.forms import ProductForm, InvoiceForm, InvoiceItemsFormSet
 from apps.sales.utils.code_generator import invoice_code_generator, product_code_generator
 
-from pypdf import PdfReader, PdfWriter
 import pdfkit
+from pypdf import PdfReader, PdfWriter
 # Create your views here.
 
 
 @login_required(login_url="/login")
-def index(request):
-    return render(request, 'sales\index.html')
+def delivery(request):
+    return render(request, 'sales\delivery.html')
 
 
 def report_list(request):
@@ -32,12 +32,18 @@ def report_details(request, id=None):
     invoice = get_object_or_404(Invoice, id=id)
     invoiceitem = invoice.invoiceitems_set.all()
 
+    # Calcule du prix de revient total
+
+    # Calcule de la marge total
+
+    # Calcule de la difference et des differentes peertes
+
     context = {
         "company": {
-            "name": "Uzan Muyumba",
+            "name": "MERCURE 1",
             "address": "1B Lubumbashi, RDC",
             "phone": "(243) XXX XXXX",
-            "email": "contact@uzan.com",
+            "email": "uzanmuyumbaben@gmial.com",
         },
         "invoice_id": invoice.id,
         "invoice_total": invoice.total_sales_amount,
@@ -50,10 +56,52 @@ def report_details(request, id=None):
         "invoiceitem": invoiceitem,
 
     }
-    return render(request, 'sales/pdf_template.html', context)
+    return render(request, 'sales/report_details.html', context)
+
+
+# todo : rapport detailee
+def extra_report_details(request, id=None):
+    invoice = get_object_or_404(Invoice, id=id)
+
+    invoiceitem = invoice.invoiceitems_set.all()
+
+    # Calcule du prix de revient total
+
+    # Calcule de la marge total
+    for keys, item in enumerate(invoiceitem):
+        print(keys)
+        print(item)
+
+    # Calcule de la difference et des differentes peertes
+
+    context = {
+        "company": {
+            "name": "MERCURE 1",
+            "address": "1B Lubumbashi, RDC",
+            "phone": "(243) XXX XXXX",
+            "email": "uzanmuyumbaben@gmial.com",
+        },
+        "invoice_id": invoice.id,
+        "invoice_total": invoice.total_sales_amount,
+        "customer": 'Maitre Olivier',
+        "customer_email": '@gmail.com',
+        "date": invoice.date,
+        "due_date": invoice.date,
+        "billing_address": 'Lubumbashi, Haut-Katanga',
+        "message": 'Bon',
+        "invoiceitem": invoiceitem,
+
+    }
+    return render(request, 'sales/extra_report_details.html', context)
 
 
 def generate_report(request, id=None):
+
+    invoice = Invoice.objects.get(id=id)
+    invoice_code = invoice.invoice_code
+
+    print(invoice_code)
+
     # Use False instead of output path to save pdf to a variable
     # by using configuration you can add path value.
     wkhtml_path = pdfkit.configuration(
@@ -61,10 +109,21 @@ def generate_report(request, id=None):
 
     pdf = pdfkit.from_url(request.build_absolute_uri(
         reverse('report-details', args=[id])), False, configuration=wkhtml_path)
+
     response = HttpResponse(pdf, content_type='application/pdf')
-    response['Content-Disposition'] = 'attachment; filename="invoice.pdf"'
+    response['Content-Disposition'] = f'attachment; filename="invoice-{invoice_code}.pdf"'
+
+    # reader = PdfReader(f"C:/Users/SK/Downloads/invoice-{invoice_code}.pdf")
+    # writer = PdfWriter()
+
+    # writer.append_pages_from_reader(reader)
+    # writer.encrypt("rootroot")
+
+    # with open("C:/Users/SK/Downloads/output.pdf", "wb") as out_file:
+    #     writer.write(out_file)
 
     return response
+    # return render(request, "sales\\report.html")
 
 
 def report(request):
@@ -164,6 +223,7 @@ def create_order(request):
 
     products = Product.objects.all
 
+    # Generation du nemero du rapport
     if Invoice.objects.count() < 1:
         invoice_code = invoice_code_generator('')
     else:
