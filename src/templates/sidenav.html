@@ -5,12 +5,22 @@
       <i class="fas fa-times p-3 cursor-pointer text-secondary opacity-5 position-absolute end-0 top-0 d-none d-xl-none" aria-hidden="true" id="iconSidenav"></i>
       <a class="navbar-brand m-0" href=" https://demos.creative-tim.com/argon-dashboard/pages/dashboard.html " target="_blank">
         <img src="{% static "img/logo-2.png" %}" class="navbar-brand-img h-100" alt="main_logo">
-        <span class="ms-1 font-weight-bold">Express APP</span>
+        <span class="ms-1 font-weight-bold">Mecure APP</span>
       </a>
     </div>
     <hr class="horizontal dark mt-0">
-    <div class="collapse navbar-collapse  w-auto " id="sidenav-collapse-main">
+    <div class="collapse navbar-collapse w-auto " id="sidenav-collapse-main">
       <ul class="navbar-nav">
+        {% if user.is_staff %}
+        <li class="nav-item">
+          <a class="nav-link " href="../pages/rtl.html">
+            <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
+              <i class="ni ni-single-copy-04 text-danger text-sm opacity-10"></i>
+            </div>
+            <span class="nav-link-text ms-1">Livraison</span>
+          </a>
+        </li>
+        {% else %}
         <li class="nav-item">
           <a class="nav-link" href="{% url "dashboard" %}">
             <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
@@ -25,6 +35,14 @@
               <i class="ni ni-calendar-grid-58 text-warning text-sm opacity-10"></i>
             </div>
             <span class="nav-link-text ms-1">Liste des produit</span>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link " href="{% url "stock_product_list" %}">
+            <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
+              <i class="ni ni-calendar-grid-58 text-warning text-sm opacity-10"></i>
+            </div>
+            <span class="nav-link-text ms-1">Approvisionnement</span>
           </a>
         </li>
         <li class="nav-item">
@@ -43,19 +61,12 @@
             <span class="nav-link-text ms-1">Rapports</span>
           </a>
         </li>
-        <li class="nav-item">
-          <a class="nav-link " href="../pages/rtl.html">
-            <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
-              <i class="ni ni-world-2 text-danger text-sm opacity-10"></i>
-            </div>
-            <span class="nav-link-text ms-1">RTL</span>
-          </a>
-        </li>
+        {% endif %}
         <li class="nav-item mt-3">
           <h6 class="ps-4 ms-2 text-uppercase text-xs font-weight-bolder opacity-6">Account pages</h6>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="../pages/profile.html">
+          <a class="nav-link" href="">
             <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
               <i class="ni ni-single-02 text-dark text-sm opacity-10"></i>
             </div>
@@ -63,18 +74,6 @@
           </a>
         </li>
       </ul>
-    </div>
-    <div class="sidenav-footer mx-3 ">
-      <div class="card card-plain shadow-none" id="sidenavCard">
-        <img class="w-50 mx-auto" src="{% static "img/illustrations/icon-documentation.svg" %}" alt="sidebar_illustration">
-        <div class="card-body text-center p-3 w-100 pt-0">
-          <div class="docs-info">
-            <h6 class="mb-0">Besoins d'aide?</h6>
-            <p class="text-xs font-weight-bold mb-0">Lire la documentation ou contactez l'administrateur</p>
-          </div>
-        </div>
-      </div>
-      <a class="btn btn-primary btn-sm mb-0 w-100" href="https://www.creative-tim.com/product/argon-dashboard-pro?ref=sidebarfree" type="button">Upgrade to pro</a>
     </div>
     <script>
         // Script for active Nav Links
