@@ -1,0 +1,101 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block head_file %}
+    <script  src="{% static 'js/jquery-3.7.1.min.js' %}"></script>
+{% endblock head_file %}
+
+{% block title %}
+    List des produits
+{% endblock title %}
+
+{% block content %}
+<br><br>
+<div class="card">
+    <div class="card-header pb-0">
+        <h6>
+            Liste des produits en stock
+        </h6>
+    </div>
+    <div class="card-body">
+            <table id="myTable" class="mx-auto table table-hover" style="width:100%">
+                <thead class="table" >
+                    <tr>
+                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder">Réference</th>
+                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder">Designation</th>
+                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder">Prix Unitaire</th>
+                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder">Prix Actuel en stock</th>
+                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder">Stock Actuel</th>
+                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder">Stock Min.</th>
+                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder">Stock Max.</th>
+                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder">Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for product in products %}
+                    <tr>
+                        <td>
+                            <p class="text-sm font-weight-bold mb-0">
+                                {{ product.product_code }}
+                            </p>
+                        </td>
+                        <td>
+                            <p class="text-uppercase text-xs text-secondary mb-0">
+                                {{ product.name }}
+                            </p>
+                        </td>
+                        <td>
+                            <p class="text-xs font-weight-bold">
+                                {{ product.price_ventes }} CDF
+                            </p>
+                        </td>
+                        <td>
+                            <p class="text-xs font-weight-bold">
+                                0 CDF
+                            </p>
+                        </td>
+                        <td>
+                            <p class="text-xs font-weight-bold">
+                                0
+                            </p>
+                        </td>
+                        <td>
+                            <p class="text-xs font-weight-bold">
+                                0
+                            </p>
+                        </td>
+                        <td>
+                            <p class="text-xs font-weight-bold">
+                                0
+                            </p>
+                        </td>
+                        <td>
+                          <a href="stock-product-mgmt/{{product.id}}"><button class="btn btn-outline-success" id="up">Modifier</button></a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder">Réference</th>
+                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder">Designation</th>
+                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder">Prix Unitaire</th>
+                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder">Prix Actuel en stock</th>
+                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder">Stock Actuel</th>
+                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder">Stock Minimum</th>
+                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder">Stock Maximum</th>
+                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder">Action</th>
+                    </tr>
+                </tfoot>
+            </table>
+            <a href={% url "create_product" %}><button class="btn btn-primary">Ajouter produit</button></a>
+        <br>
+        <br>
+    </div>
+  </div>
+
+{% endblock %}
+
+{% block script_file %}
+    <script src="{% static "sales/js/script.js" %}"></script>
+{% endblock script_file %}
