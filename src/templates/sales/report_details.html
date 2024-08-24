@@ -1,0 +1,95 @@
+{% load static%}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>Rapport</title>
+    <link rel="stylesheet" href="{%static '/css/invoice-template-1.css' %}" media="all" />
+  </head>
+  <body>
+    <header class="clearfix">
+      <div id="logo">
+        <img src="{% static 'img/logo-ct-dark.png'%}" style="width: 134px; height:116px"> 
+      </div>
+      <div id="company">
+        <h1 class="name">{{company.name}}</h1>
+        <div>{{company.address}}</div>
+        <div>{{company.phone}}</div>
+        <div><a href="mailto:{{company.email}}">{{company.email}}</a></div>
+      </div>
+      </div>
+    </header>
+    <main>
+      <div id="details" class="clearfix">
+        <div id="client">
+          <div class="to">INVOICE TO:</div>
+          <h2 class="name">{{customer}}</h2>
+          <div class="address">{{billing_address}}</div>
+          <div class="email"><a href="mailto:{{customer_email}}">{{customer_email}}</a></div>
+        </div>
+        <div id="invoice">
+          <h1>#{{invoice_id}}</h1>
+          <div class="date">Date of Invoice: {{date}}</div>
+          <div class="date">Due Date: {{due_date}}</div>
+        </div>
+      </div>
+      <table border="0" cellspacing="0" cellpadding="0">
+        <thead>
+          <tr>
+            <th class="no">#</th>
+            <th class="desc">CODE</th>
+            <th class="desc">DESCRIPTION</th>
+            <th class="unit">P.U</th>
+            <th class="qty">QTY</th>
+            <th class="total">TOTAL</th>
+          </tr>
+        </thead>
+        <tbody>
+			{% for item in invoiceitem %}
+          <tr>
+            <td class="no">{{forloop.counter}}</td>
+            <td class="desc">{{item.product.product_code}}</td>
+            <td class="desc">{{item.product.name}}</td>
+            <td class="unity_price number">${{item.unity_price}}</td>
+            <td class="quantity">{{item.quantity}}</td>
+            <td class="total_price number">${{item.total_price}}</td>
+		  </tr>
+		  {% endfor %}
+        </tbody>
+        <tfoot>
+          <tr>
+            <td colspan="1"></td>
+            <td colspan="4">SUBTOTAL</td>
+            <td class="total_i number">${{invoice_total}}</td>
+          </tr>
+          <tr>
+            <td colspan="1"></td>
+            <td colspan="4">TAX 0%</td>
+            <td class="total_i number">${{invoice_total}}</td>
+          </tr>
+          <tr>
+            <td colspan="1"></td>
+            <td colspan="4">GRAND TOTAL</td>
+            <td class="total_i number">${{invoice_total}}</td>
+          </tr>
+        </tfoot>
+      </table>
+      <div id="thanks">Merci !</div>
+      <div id="notices">
+        <div>NOTICE:</div>
+        <div class="notice">Le valeurs du dollars en franc est de 1 USD = 2900 CDF.</div>
+      </div>
+    </main>
+    <footer>
+      Invoice was created on a computer and is valid without the signature and seal.
+    </footer>
+  
+    <input type="text" name="" class="number-separator" id="">
+
+    <script src="{% static 'js/jquery-3.7.1.min.js' %}"></script>
+    <script src="{% static 'js/jquery.number.min.js' %}"></script>
+    <script>
+      $('td.number').number( true, 2 )
+    </script>
+  </body>
+</html>

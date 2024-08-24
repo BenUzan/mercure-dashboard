@@ -109,10 +109,6 @@
         $('input.total_price', $tr).val(amt);
         calc_total();
     });
-    
-    $('#form').submit(function(){
-        $("#form :disabled").removeAttr('disabled');
-    });
 
     $(document).ready(function () {
         $("#ccc").click(function (){
@@ -129,8 +125,6 @@
             });
         });
     });
-
-    
 
     $("#delete").click( function(){
         var $tr = $(this).closest('tr');
@@ -159,11 +153,11 @@
         $('#total').text(sum);
     }
 
-
-
+    $('#form').submit(function(){
+        $("#form :disabled").removeAttr('disabled');
+    });
 
 </script>
-
     <script src="{% static "sales/js/script.js" %}" ></script>
 {% endblock script_file %}
 

@@ -7,6 +7,11 @@ Liste des rapports
 
 {% block content %}
 <div class="card">
+  {% if user.is_staff %}
+  staff
+  {% else %}
+  no_staff
+  {% endif %}
     <div class="table-responsive">
       <table class="table align-items-center mb-0">
         <thead>
@@ -49,7 +54,11 @@ Liste des rapports
                   </td>
                 <td class="align-middle">
                   <a href="report-details/{{ invoice.id }}" class="text-secondary font-weight-bold text-xs" data-toggle="tooltip" data-original-title="Edit user">
-                    Edit
+                    Voir
+                  </a>
+                  <br>
+                  <a href="extra-report-details/{{ invoice.id }}" class="text-secondary font-weight-bold text-xs" data-toggle="tooltip" data-original-title="Edit user">
+                    Extra Views
                   </a>
                   <br>
                   <a href="report-download/{{ invoice.id }}" class="text-secondary font-weight-bold text-xs" data-toggle="tooltip" data-original-title="Edit user">
