@@ -14,7 +14,7 @@ class SignupForm(forms.Form):
         max_length=50,
         widget=forms.TextInput(
             attrs={
-                'placeholder': 'Post-nom',
+                'placeholder': 'Nom',
                 'class': 'form-control',
                 'id': 'floatingInput'}))
 
@@ -22,7 +22,7 @@ class SignupForm(forms.Form):
         help_text="L'adresse mail",
         widget=forms.TextInput(
             attrs={
-                'placeholder': 'E-mail',
+                'placeholder': 'E-mail : exemple@mail.com',
                 'class': 'form-control',
                 'id': 'floatingInput'}))
 
@@ -58,7 +58,7 @@ class LoginForm(forms.Form):
         help_text="Nom d'utilisateur",
         widget=forms.TextInput(
             attrs={
-                'placeholder': 'your-email@gmail.com',
+                'placeholder': "Votre nom d'utilisateur",
                 'class': 'form-control form-control-lg',
                 'id': 'username'}))
 
@@ -66,6 +66,6 @@ class LoginForm(forms.Form):
         max_length=6,
         widget=forms.PasswordInput(
             attrs={
-                'placeholder': 'Mot de passe',
+                'placeholder': 'Votre mot de passe',
                 'class': 'form-control form-control-lg',
                 'id': 'password'}))

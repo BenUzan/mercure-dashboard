@@ -71,7 +71,11 @@ def loginaccount(request):
                 })
             else:
                 login(request, user)
-                return redirect('dashboard')
+
+                if user.is_staff:
+                    return redirect('delivery')
+                else:
+                    return redirect('dashboard')
 
     else:
         form = LoginForm()
