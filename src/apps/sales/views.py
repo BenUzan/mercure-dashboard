@@ -1,3 +1,4 @@
+import os
 import re
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import get_object_or_404, redirect, render
@@ -6,7 +7,7 @@ from django.contrib.auth.models import User
 from django.urls import reverse
 from apps.sales.models import InvoiceItems, Invoice, Product
 from apps.sales.forms import ProductForm, InvoiceForm, InvoiceItemsFormSet
-from apps.sales.utils.code_generator import invoice_code_generator, product_code_generator
+from apps.sales.utils.code_generator import code_generator
 
 import pdfkit
 from pypdf import PdfReader, PdfWriter
@@ -98,32 +99,35 @@ def extra_report_details(request, id=None):
 def generate_report(request, id=None):
 
     invoice = Invoice.objects.get(id=id)
-    invoice_code = invoice.invoice_code
 
-    print(invoice_code)
+    filename = f'{invoice.invoice_code}.pdf'
 
-    # Use False instead of output path to save pdf to a variable
-    # by using configuration you can add path value.
-    wkhtml_path = pdfkit.configuration(
-        wkhtmltopdf="C:/Program Files/wkhtmltopdf/bin/wkhtmltopdf.exe")
+    config = pdfkit.configuration(wkhtmltopdf="C:/Program Files/wkhtmltopdf/bin/wkhtmltopdf.exe")
 
-    pdf = pdfkit.from_url(request.build_absolute_uri(
-        reverse('report-details', args=[id])), False, configuration=wkhtml_path)
+    # ----- ----- CREATE PDF AND SAVE IT LOCALY ----- -----
+    file_path = 'C:/mercure/'
+    os.makedirs(file_path, exist_ok=True)
+    pdf_save_path = file_path+filename
+    # Save the PDF
+    pdfkit.from_url(request.build_absolute_uri(reverse('report-details', args=[id])),  pdf_save_path, configuration=config)
+
+    # ----- ----- ENCRYPT PREVIOUS FILE ----- -----
+    reader = PdfReader(f"C:/mercure/{filename}")
+
+    writer = PdfWriter()
+    writer.append_pages_from_reader(reader)
+    writer.encrypt("password")
+
+    with open("C:/mercure/output.pdf", "wb") as out_file:
+        writer.write(out_file)
+
+    # ----- ----- CREATE PDF TO DOWNLOAD ----- -----
+    pdf = pdfkit.from_url(request.build_absolute_uri(reverse('report-details', args=[id])), False, configuration=config)
 
     response = HttpResponse(pdf, content_type='application/pdf')
-    response['Content-Disposition'] = f'attachment; filename="invoice-{invoice_code}.pdf"'
-
-    # reader = PdfReader(f"C:/Users/SK/Downloads/invoice-{invoice_code}.pdf")
-    # writer = PdfWriter()
-
-    # writer.append_pages_from_reader(reader)
-    # writer.encrypt("rootroot")
-
-    # with open("C:/Users/SK/Downloads/output.pdf", "wb") as out_file:
-    #     writer.write(out_file)
+    response['Content-Disposition'] = f'attachment; filename="invoice-{filename}"'
 
     return response
-    # return render(request, "sales\\report.html")
 
 
 def report(request):
@@ -140,10 +144,10 @@ def create_product(request):
             name = form.cleaned_data['name']
 
             if Product.objects.count() < 1:
-                product_code = product_code_generator('')
+                product_code = code_generator('', 'ART-')
             else:
                 product = Product.objects.latest('product_code')
-                product_code = product_code_generator(product.product_code)
+                product_code = code_generator(product.product_code, 'ART-')
 
             price_achat = form.cleaned_data['price_achat']
             price_revient = form.cleaned_data['price_revient']
@@ -225,10 +229,10 @@ def create_order(request):
 
     # Generation du nemero du rapport
     if Invoice.objects.count() < 1:
-        invoice_code = invoice_code_generator('')
+        invoice_code = code_generator('', 'FAC-')
     else:
         invoice = Invoice.objects.latest('invoice_code')
-        invoice_code = invoice_code_generator(invoice.invoice_code)
+        invoice_code = code_generator(invoice.invoice_code, 'FAC-')
 
     if request.method == 'POST':
 
