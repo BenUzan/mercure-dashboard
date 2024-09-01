@@ -6,13 +6,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     
 
-    {% block head_file %}
+    {% block stylsheets %}
     
-    {% endblock head_file %}
-
+    {% endblock stylsheets %}
+ 
     <!-- formset-media-js and JQuery Included-->
+    <script  src="{% static 'js/jquery-3.7.1.min.js' %}"></script>
     {{ formset.media }}
-    
+
     <!-- DataTables CSS Files -->
     <link rel="stylesheet" href="{% static 'css/DataTables/datatables.min.css' %}">
     <link rel="stylesheet" href="{% static 'css/DataTables/dataTables.bootstrap5.css' %}">
@@ -20,7 +21,7 @@
     <!-- DataTables JS Files -->
     <script  src="{% static 'js/DataTables/datatables.min.js' %}"></script>
     <script  src="{% static 'js/DataTables/dataTables.bootstrap5.js' %}"></script>
-    
+
     <!-- Nucleo Icons -->
     <link href="{% static "css/nucleo-icons.css" %}" rel="stylesheet" />
     <link href="{% static "css/nucleo-svg.css" %}" rel="stylesheet" />
@@ -28,7 +29,7 @@
     <!-- CSS Files -->
     <link id="pagestyle" href="{% static "css/argon-dashboard.min.css" %}" rel="stylesheet" />
 
-    <title>
+    <title> MERCURE APP :
         {% block title %}
 
         {% endblock title %}
@@ -40,11 +41,11 @@
         
         <div class="min-height-400 position-absolute w-100" style="background-color: #241571"></div>
 
-        {% include "sidenav.html" %}
+        {% include "partials/sidenav.html" %}
 
         <main class="main-content position-relative border-radius-lg ">
 
-            {% include "navbar.html" %}
+            {% include "partials/navbar.html" %}
 
             <div class="container-fluid py-4">
 
@@ -52,7 +53,7 @@
 
                 {% endblock content %}
                 
-                {% include "footer.html" %}
+                {% include "partials/footer.html" %}
 
             </div>
             
@@ -71,15 +72,17 @@
     </body>
 
 {% endif %}
-<!-- Block of script files (javascript) -->
-{% block script_file %}
 
-{% endblock script_file %}
+    <!-- Block of script files (javascript) -->
+    {% block javasrcipts %}
+
+    {% endblock javasrcipts %}
+
 
     <!--   Core JS Files   -->
     <script src={% static "js/core/popper.min.js" %}></script>
     <script src={% static "js/core/bootstrap.min.js" %}></script>
-    <script src={% static "js/plugins/bootstrap-notify.min.js" %}></script>
+    <script src={% static "js/plugins/bootstrap-notify.js" %}></script>
     <script src={% static "js/plugins/perfect-scrollbar.min.js" %}></script>
     <script src={% static "js/plugins/smooth-scrollbar.min.js" %}></script>
     <script src={% static "js/plugins/chartjs.min.js" %}></script>
