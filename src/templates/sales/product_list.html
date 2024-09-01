@@ -1,9 +1,6 @@
 {% extends 'base.html' %}
 {% load static %}
 
-{% block head_file %}
-    <script  src="{% static 'js/jquery-3.7.1.min.js' %}"></script>
-{% endblock head_file %}
 
 {% block title %}
     List des produits
@@ -69,6 +66,7 @@
 
 {% endblock %}
 
-{% block script_file %}
+{% block javasrcipts %}
+    
     <script src="{% static "sales/js/script.js" %}"></script>
-{% endblock script_file %}
+{% endblock javasrcipts %}

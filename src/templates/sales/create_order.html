@@ -94,7 +94,12 @@
 
 {% endblock content %}
 
-{% block script_file %}
+{% block javasrcipts %}
+
+<script type="module" src="{% static "js/InputSpinner.js" %}"></script>
+<script>
+    $("input[type='number']").inputSpinner()
+</script>
 
 <script type="text/javascript">
     {% comment %} !!! code a revoir ABSOLUMENT !!! {% endcomment %}
@@ -159,5 +164,5 @@
 
 </script>
     <script src="{% static "sales/js/script.js" %}" ></script>
-{% endblock script_file %}
+{% endblock javasrcipts %}
 
