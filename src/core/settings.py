@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     # * Middleware Apps
     'jquery',
     'djangoformsetjs',
+    'django_extensions',
     # todo: IF STATIC FILES NO RENDER, ACTIVE WhiteNoise.
     'whitenoise.runserver_nostatic',
 
